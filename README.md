@@ -1,9 +1,10 @@
 Layout-PHP
 ==========
 
-A PHP class that render HTML Layout. You can choose meta, stylesheet, scripts
+A PHP class that wrap and render HTML Layout. You can choose the doctype, meta, stylesheet, scripts, etc. 
 
-You can use it like that :
+See an example below :
+
 
     $content = '<h1>Hello World</h1>';
 
