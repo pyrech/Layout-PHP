@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * Wrapper of the HTML Layout
+ *
+ * This class provide a wrapper of the Layout. You can choose the doctype,
+ * title, meta, styles, scripts, etc
+ *
+ * @author     Loick Piera <contact@loickpiera.com>
+ * 
+ */
+
 class Layout {
 
+  /**
+   * Constants for each Doctype available
+   * 
+   * @param const int
+   */
   const DOCTYPE_HTML5                 = 1;
   const DOCTYPE_HTML4_01_TRANSITIONAL = 2;
   const DOCTYPE_HTML4_01_STRICT       = 3;
@@ -12,10 +27,21 @@ class Layout {
 
   public function __construct() { }
 
+  /**
+   * Return a new Layout
+   * 
+   * @return Layout
+   */
   public static function getInstance() {
     return new Layout();
   }
 
+  /**
+   * Return the doctype according to the constant passed to the function
+   * 
+   * @param int $version
+   * @return string
+   */
   public static function getDoctype($version = self::DOCTYPE_HTML5) {
     $doctype = '';
     switch($version) {
@@ -44,6 +70,21 @@ class Layout {
     return $doctype;
   }
 
+  /**
+   * Return the meta tag
+   *
+   * The default key attribute is name. If you need a custom key,
+   * you simply have to prefixe the key_value by 'my-key:'.
+   *
+   * Eg : if you need a meta refresh of 60, you should call this method like that :
+   * Layout::getMeta('http-equiv:refresh', 60)
+   *
+   * Or with the array $opts in render method : $opts['meta']['http-equiv:refresh'] = 60
+   * 
+   * @param string $key_value
+   * @param string $content_value
+   * @return string
+   */
   public static function getMeta($key_value, $content_value) {
     $key_attribute = 'name';
     if (strpos($key_value, ':') !== false) {
@@ -56,6 +97,73 @@ class Layout {
     return '<meta '.join(' ', $attributes).' />';
   }
 
+  /**
+   * Return the link tag
+   * 
+   * $style can be a string and represent the href of the file and media by default is 'all',
+   * or an array with a key 'href' and 'media' 
+   * 
+   * @param mixed $style
+   * @return string
+   */
+  public static function getStyle($style) {
+    if (is_array($style)) {
+      $href  = $style['href'];
+      $media = $style['media'];
+    }
+    elseif (is_string($style)) {
+      $media = 'all';
+      $href = $style;
+    }
+    else {
+      return '';
+    }
+    return '<link href="'.$href.'" rel="stylesheet" media="'.$media.'" />';
+  }
+
+  /**
+   * Return the script tag
+   *
+   * $script can be a string and represent the src of the file,
+   * or an array with a key 'internal' which represent the js inside the script's tag  
+   * 
+   * @param mixed $script
+   * @param boolean $defer
+   * @return string
+   */
+  public static function getScript($script, $defer) {
+    if (is_array($script) && array_key_exists('internal', $script)) {
+      return '<script type="text/javascript">'.$script['internal'].'</script>';
+    }
+    elseif (is_string($script)) {
+      return '<script src="'.$script.'" type="text/javascript"'.($defer?' defer':'').'></script>';
+    }
+    else {
+      return '';
+    }
+  }
+
+  /**
+   * Return the top of the layout (doctype, head, open body)
+   *
+   * Include the doctype, open html tag, add meta, stylesheets, scripts in the head and open body tag.
+   *
+   * Options available :
+   *
+   * doctype -> one of the DOCTYPE_X constant
+   * meta    -> array of meta. @see Layout::getMeta() for details
+   * title   -> title of the page
+   * styles  -> array of style. @see Layout::getStyle() for details
+   * icon    -> array with the url of favicon in .png and/or .ico
+   *            Eg : $opts['icon'] = array('png' => '/favicon.png', 'ico' => '/favicon.ico');
+   * scripts -> array of script. @see Layout::getScript() for details
+   * defer   -> boolean. @see Layout::getScript() for details
+   * class   -> array of classnames for body
+   * 
+   * @param string $key_value
+   * @param string $content_value
+   * @return string
+   */
   private function getHead($opts) {
     $head = self::getDoctype($opts['doctype']);
     $head .= '
@@ -70,19 +178,11 @@ class Layout {
       }
     }
     $head .='
-    <title>'.$opts['title'].'</title>
+    <title>'.$opts['title'].'</title>';
     if (array_key_exists('styles', $opts) && is_array($opts['styles'])) {
       foreach ($opts['styles'] as $style) {
-        if (!is_array($style)) {
-          $media = 'all';
-          $href = $style;
-        }
-        else {
-          $href  = $style['href'];
-          $media = $style['media'];
-        }
         $head .= '
-    <link href="'.$href.'" rel="stylesheet" media="'.$media'." />';
+    '.self::getStyle($style);
       }
     }
 
@@ -99,14 +199,8 @@ class Layout {
     $defer = array_key_exists('defer', $opts) ? $opts['defer'] : false;
     if (array_key_exists('scripts', $opts) && is_array($opts['scripts'])) {
       foreach ($opts['scripts'] as $script) {
-        if (is_array($script) && array_key_exists('internal', $script)) {
-          $head .= '
-    <script type="text/javascript">'.$script['internal'].'</script>';
-        }
-        else {
-          $head .= '
-    <script src="'.$script.'" type="text/javascript"'.($defer?' defer':'').'></script>';
-        }
+        $head .= '
+    '.self::getScript($script, $defer);
       }
     }
     $head .= '
@@ -115,12 +209,28 @@ class Layout {
     return $head;
   }
 
+  /**
+   * Return the footer of HTML
+   *
+   * Close body et html tags
+   * 
+   * @return string
+   */
   private function getFooter() {
     return '
   </body>
 </html>';
   }
 
+  /**
+   * Return the entire HTML
+   *
+   * Require the $opts array for the head section and $content to include in the layout
+   * 
+   * @param string $opts
+   * @param string $content
+   * @return string
+   */
   public function render($opts, $content) {
     return $this->getHead($opts).$content.$this->getFooter();
   }
