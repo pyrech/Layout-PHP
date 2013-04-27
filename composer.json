@@ -1,5 +1,5 @@
 {
-    "name": "Pyrech/Layout",
+    "name": "pyrech/layout",
     "type": "library",
     "description": "Provides a wrapper for the HTML layout",
     "keywords": ["layout","html"],
