@@ -1,7 +1,7 @@
 Layout-PHP
 ==========
 
-A PHP class that wrap and render HTML Layout. You can choose the doctype, meta, stylesheet, scripts, etc. 
+A PHP class that wrap and render an HTML Layout. You can customize the doctype, meta, stylesheet, scripts, etc. 
 
 See an example below :
 
@@ -21,7 +21,7 @@ See an example below :
                                      array('media' => 'print',
                                            'href'  => '/print.css')),
                   'scripts' => array('/my-js.css',
-                                     array('internal' => 'alert("Hello World !")')),
+                                     array('internal' => 'alert("Hello World!");')),
                   'defer'   => true);
                   
-    echo Layout::getInstance()->render($opts, $content);
+    echo Layout::getInstance()->render($content, $opts);

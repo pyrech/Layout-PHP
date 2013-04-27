@@ -1,0 +1,24 @@
+{
+    "name": "Pyrech/Layout",
+    "type": "library",
+    "description": "Provides a wrapper for the HTML layout",
+    "keywords": ["layout","html"],
+    "homepage": "http://github.com/Pyrech/Layout-PHP",
+    "license": "GNU GPL V2",
+    "authors": [
+        {
+            "name": "Loick Piera",
+            "email": "contact@loickpiera.com",
+            "homepage": "http://loickpiera.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Pyrech": "src"
+        }
+    }
+}
