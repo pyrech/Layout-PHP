@@ -121,7 +121,7 @@ class Layout {
    * $doctype should be one in Pyrech\Layout::$doctypes_available
    * 
    * @param int $doctype
-   * @return string
+   * @return void
    */
   public function setDoctype($doctype) {
     if (in_array($doctype, self::$doctypes_available)) {
@@ -378,8 +378,7 @@ class Layout {
    * defer   -> boolean. @see Pyrech\Layout::getScriptTag() for details
    * class   -> mixed. @see Pyrech\Layout::addBodyClass() for details
    * 
-   * @param string $key_value
-   * @param string $content_value
+   * @param array $opts
    * @return string
    */
   private function getHead(array $opts) {
@@ -447,8 +446,9 @@ class Layout {
   /**
    * Return the entire HTML
    *
-   * Require the $opts array for the head section and $content to include in the layout
-   * 
+   * Require the $content to include in the layout
+   *
+   * @see Pyrech\Layout::getHead() for more details on $opts
    * @param string $content
    * @param array $opts
    * @return string
