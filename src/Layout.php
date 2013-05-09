@@ -27,6 +27,13 @@ class Layout {
   const DOCTYPE_XHTML1_0_FRAMESET     = 6;
   const DOCTYPE_HTML5                 = 7;
 
+
+  /**
+   * Array of doctypes available
+   *
+   * @static
+   * @param array
+   */
   public static $doctypes_available = array(DOCTYPE_HTML4_01_TRANSITIONAL,
                                             DOCTYPE_HTML4_01_STRICT,
                                             DOCTYPE_HTML4_01_FRAMESET,
@@ -35,10 +42,34 @@ class Layout {
                                             DOCTYPE_XHTML1_0_FRAMESET,
                                             DOCTYPE_HTML5);
 
+  /**
+   * Doctype setted. Default is HTML5
+   *
+   * @param int
+   */
   private $doctype = self::DOCTYPE_HTML5;
+
+  /**
+   * Body classes.
+   *
+   * @param string
+   */
   private $body_classes = "";
+
+  /**
+   * Array of element to add in head section
+   *
+   * @param array
+   */
   private $head = '';
 
+
+  /**
+   * Public constructor
+   * 
+   * @static
+   * @return void
+   */
   public function __construct() { }
 
   /**
@@ -282,14 +313,14 @@ class Layout {
     switch ($type) {
       case 'png':
         return $this->getLinkTag(array('rel'  => 'icon',
-                                    'type' => 'image/png',
-                                    'href' => $href));
+                                       'type' => 'image/png',
+                                       'href' => $href));
         break;
 
       case 'ico':
         return $this->getLinkTag(array('rel'  => 'shortcut icon',
-                                    'type' => 'image/x-icon',
-                                    'href' => $href));
+                                       'type' => 'image/x-icon',
+                                       'href' => $href));
         break;
       
       default:
@@ -342,6 +373,7 @@ class Layout {
    * styles  -> array of style. @see Pyrech\Layout::getStyleTag() for details
    * icon    -> array with the url of favicon in .png and/or .ico
    *            Eg : $opts['icon'] = array('png' => '/favicon.png', 'ico' => '/favicon.ico');
+   *            @see Pyrech\Layout::getIconTag() for details
    * scripts -> array of script. @see Pyrech\Layout::getScriptTag() for details
    * defer   -> boolean. @see Pyrech\Layout::getScriptTag() for details
    * class   -> mixed. @see Pyrech\Layout::addBodyClass() for details
