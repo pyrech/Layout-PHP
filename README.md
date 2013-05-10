@@ -54,4 +54,8 @@ Second way (add each element as you want):
 
     echo $layout2->render($content);
 
-Pyrech\Layout can be implemented in any PHP framework or can be used in a simple structure.
+If you want to insert a custom element in the head part, you must use the second way (see above) and call the addElement method :
+
+    $layout->addElement('<!--Your html comment-->');
+
+Pyrech\Layout can be implemented in any PHP framework or can be used in a simple structure. Available via composer : pyrech/layout
