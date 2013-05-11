@@ -14,10 +14,11 @@ namespace Pyrech;
 
 class Layout {
 
-  /**
+  /**#@+
    * Constants for each Doctype available
    * 
-   * @param const int
+   * @access private
+   * @var const int
    */
   const DOCTYPE_HTML4_01_TRANSITIONAL = 1;
   const DOCTYPE_HTML4_01_STRICT       = 2;
@@ -26,13 +27,13 @@ class Layout {
   const DOCTYPE_XHTML1_0_STRICT       = 5;
   const DOCTYPE_XHTML1_0_FRAMESET     = 6;
   const DOCTYPE_HTML5                 = 7;
-
+  /**#@-*/
 
   /**
    * Array of doctypes available
    *
    * @static
-   * @param array
+   * @var array
    */
   public static $doctypes_available = array(DOCTYPE_HTML4_01_TRANSITIONAL,
                                             DOCTYPE_HTML4_01_STRICT,
@@ -45,21 +46,22 @@ class Layout {
   /**
    * Doctype setted. Default is HTML5
    *
-   * @param int
+   * @access int
+   * @var int
    */
   private $doctype = self::DOCTYPE_HTML5;
 
   /**
    * Body classes.
    *
-   * @param string
+   * @var string
    */
   private $body_classes = "";
 
   /**
    * Array of element to add in head section
    *
-   * @param array
+   * @var array
    */
   private $head = '';
 
