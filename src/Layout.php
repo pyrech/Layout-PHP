@@ -17,7 +17,6 @@ class Layout {
   /**#@+
    * Constants for each Doctype available
    * 
-   * @access private
    * @var const int
    */
   const DOCTYPE_HTML4_01_TRANSITIONAL = 1;
