@@ -121,22 +121,24 @@ class Layout {
    * $doctype should be one in Pyrech\Layout::$doctypes_available
    * 
    * @param int $doctype
-   * @return void
+   * @return Pyrech\Layout
    */
   public function setDoctype($doctype) {
     if (in_array($doctype, self::$doctypes_available)) {
       $this->doctype = $doctype;
     }
+    return $this;
   }
 
   /**
    * Add a new element to the head
    * 
    * @param string $element
-   * @return string
+   * @return Pyrech\Layout
    */
   public function addElement($element) {
     $this->head[] = $element;
+    return $this;
   }
 
   /**
@@ -172,10 +174,11 @@ class Layout {
    * @see Pyrech\Layout::getMetaTag for details
    * @param string $key_value
    * @param string $content_value
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addMeta($key_value, $content_value) {
     $this->addElement($this->getMetaTag($key_value, $content_value));
+    return $this;
   }
 
   /**
@@ -202,10 +205,11 @@ class Layout {
    * 
    * @see Pyrech\Layout::getLinkTag for details
    * @param array $link
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addLink($link) {
     $this->addElement($this->getLinkTag($link));
+    return $this;
   }
 
   /**
@@ -239,10 +243,11 @@ class Layout {
    * 
    * @see Pyrech\Layout::getStyleTag for details
    * @param mixed $style
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addStyle($style) {
     $this->addElement($this->getStyleTag($style));
+    return $this;
   }
 
   /**
@@ -273,10 +278,11 @@ class Layout {
    * @see Pyrech\Layout::getScriptTag for details
    * @param mixed $script
    * @param boolean $defer
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addScript($script, $defer=false) {
     $this->addElement($this->getScriptTag($script, $defer));
+    return $this;
   }
 
   /**
@@ -293,10 +299,11 @@ class Layout {
    * Add a title tag to the head section
    * 
    * @param string $title
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addTitle($title) {
     $this->addElement($this->getTitleTag($title));
+    return $this;
   }
 
   /**
@@ -335,10 +342,11 @@ class Layout {
    * @see Pyrech\Layout::getStyleTag for details
    * @param string $type
    * @param string $href
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addIcon($type, $href) {
     $this->addElement($this->getIconTag($type, $href));
+    return $this;
   }
 
   /**
@@ -347,7 +355,7 @@ class Layout {
    * $classes is an array of classnames or string for body
    * 
    * @param mixed $classes
-   * @return void
+   * @return Pyrech\Layout
    */
   public function addBodyClass($classes) {
     $str = '';
@@ -358,6 +366,7 @@ class Layout {
       $str = join(' ', $classes);
     }
     $this->body_classes = trim($this->body_classes.' '.$str);
+    return $this;
   }
 
   /**

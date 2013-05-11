@@ -37,20 +37,20 @@ Second way (add each element as you want):
 
     $layout2 = \Pyrech\Layout::getInstance(); // Or new \Pyrech\Layout();
 
-    $layout2->setDoctype(\Pyrech\Layout::DOCTYPE_HTML5);
-    $layout2->addMeta('charset', 'utf-8');
-    $layout2->addTitle('My wonderful title');
-    $layout2->addMeta('description', 'Description of your page');
-    $layout2->addMeta('robot', 'index');
-    $layout2->addMeta('http-equiv:refresh', '60'); // If the attribute is not name, prefix the value by the attribute and ':'
-    $layout2->addIcon('png', '/favicon.png');
-    $layout2->addIcon('ico', '/favicon.ico');
-    $layout2->addStyle('/my-stylesheet.css');
-    $layout2->addStyle(array('media' => 'print',
-                             'href'  => '/print.css'));
-    $layout2->addScript('/my-javascript.js', true); // Second parameter is to set defer or not
-    $layout2->addScript(array('internal' => 'alert("Hello World!")'));
-    $layout2->addBodyClass(array('some-class', 'another-class')); // Array of classes or a string with several classes
+    $layout2->setDoctype(\Pyrech\Layout::DOCTYPE_HTML5)
+            ->addMeta('charset', 'utf-8')
+            ->addTitle('My wonderful title')
+            ->addMeta('description', 'Description of your page')
+            ->addMeta('robot', 'index')
+            ->addMeta('http-equiv:refresh', '60') // If the attribute is not name, prefix the value by the attribute and ':''
+            ->addIcon('png', '/favicon.png')
+            ->addIcon('ico', '/favicon.ico')
+            ->addStyle('/my-stylesheet.css')
+            ->addStyle(array('media' => 'print',
+                             'href'  => '/print.css'))
+            ->addScript('/my-javascript.js', true) // Second parameter is to set defer or not
+            ->addScript(array('internal' => 'alert("Hello World!")'))
+            ->addBodyClass(array('some-class', 'another-class')); // Array of classes or a string with several classes
 
     echo $layout2->render($content);
 
