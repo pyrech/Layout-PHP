@@ -19,14 +19,13 @@ First way (via render method):
                                      'robot'              => 'index',
                                      'http-equiv:refresh' => '60'), // If the attribute is not name, prefix the value by the attribute and ':'
                   'title'   => 'My wonderful title',
-                  'icon'    => array('png' => '/favicon.png',
-                                     'ico' => '/favicon.ico'),
-                  'styles'  => array('/my-stylesheet.css',
-                                     array('media' => 'print',
-                                           'href'  => '/print.css')),
-                  'scripts' => array('/my-javascript.js',
-                                     array('internal' => 'alert("Hello World!");')),
-                  'defer'   => true,
+                  'icon'    => array('/favicon.png' => 'png',
+                                     '/favicon.ico' => 'ico'),
+                  'styles'  => array('/my-stylesheet.css', // Default media is 'all'
+                                     '/print.css' => 'print'),
+                  'scripts' => array('/my-javascript.js', // Defer can be setted for one script with the \Pyrech\Layout::SCRIPT_DEFER option
+                                     'alert("Hello World!");' => \Pyrech\Layout::SCRIPT_INTERNAL),
+                  'defer'   => true, // Defer can be setted for all scripts
                   'class'   => array('some-class', 'another-class')); // Array of classes or a string with several classes
                   
     echo $layout1->render($content, $opts);
@@ -42,14 +41,13 @@ Second way (add each element as you want):
             ->addTitle('My wonderful title')
             ->addMeta('description', 'Description of your page')
             ->addMeta('robot', 'index')
-            ->addMeta('http-equiv:refresh', '60') // If the attribute is not name, prefix the value by the attribute and ':''
-            ->addIcon('png', '/favicon.png')
-            ->addIcon('ico', '/favicon.ico')
-            ->addStyle('/my-stylesheet.css')
-            ->addStyle(array('media' => 'print',
-                             'href'  => '/print.css'))
-            ->addScript('/my-javascript.js', true) // Second parameter is to set defer or not
-            ->addScript(array('internal' => 'alert("Hello World!")'))
+            ->addMeta('http-equiv:refresh', '60') // If the key attribute is not 'name', prefix the value by the attribute and ':''
+            ->addIcon('/favicon.png', 'png')
+            ->addIcon('/favicon.ico', 'ico')
+            ->addStyle('/my-stylesheet.css') // Default media is 'all'
+            ->addStyle('/print.css', 'print')
+            ->addScript('/my-javascript.js', \Pyrech\Layout::SCRIPT_DEFER)
+            ->addScript('alert("Hello World!");', \Pyrech\Layout::SCRIPT_INTERNAL)
             ->addBodyClass(array('some-class', 'another-class')); // Array of classes or a string with several classes
 
     echo $layout2->render($content);

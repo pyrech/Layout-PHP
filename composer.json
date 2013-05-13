@@ -1,8 +1,8 @@
 {
     "name": "pyrech/layout",
     "type": "library",
-    "description": "Provides a wrapper for the HTML layout",
-    "keywords": ["layout","html"],
+    "description": "Provides a wrapper to render HTML layout with doctype, meta, styles, scripts, etc",
+    "keywords": ["layout","html","doctype","skeleton"],
     "homepage": "http://github.com/Pyrech/Layout-PHP",
     "license": "GNU GPL V2",
     "authors": [

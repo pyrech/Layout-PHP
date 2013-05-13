@@ -14,6 +14,20 @@ namespace Pyrech;
 
 class Layout {
 
+  /**
+   * Constant for defer the loading of the script
+   * 
+   * @var const int
+   */
+  const SCRIPT_DEFER    = 1;
+
+  /**
+   * Constant for an internal script
+   * 
+   * @var const int
+   */
+  const SCRIPT_INTERNAL = 2;
+
   /**#@+
    * Constants for each Doctype available
    * 
@@ -216,24 +230,11 @@ class Layout {
   /**
    * Return a link tag
    * 
-   * $style can be a string and represent the href of the file and media by default is 'all',
-   * or an array with a key 'href' and 'media' 
-   * 
-   * @param mixed $style
+   * @param string $href
+   * @param string $media
    * @return string
    */
-  public function getStyleTag($style) {
-    if (is_array($style)) {
-      $href  = $style['href'];
-      $media = $style['media'];
-    }
-    elseif (is_string($style)) {
-      $media = 'all';
-      $href = $style;
-    }
-    else {
-      return '';
-    }
+  public function getStyleTag($href, $media='all') {
     return $this->getLinkTag(array('href'  => $href,
                                    'rel'   => 'stylesheet',
                                    'media' => $media));
@@ -243,34 +244,30 @@ class Layout {
    * Add a style tag to the head section
    * 
    * @see Pyrech\Layout::getStyleTag for details
-   * @param mixed $style
+   * @param string $href
+   * @param string $media
    * @return Pyrech\Layout
    */
-  public function addStyle($style) {
-    $this->addElement($this->getStyleTag($style));
+  public function addStyle($href, $media='all') {
+    $this->addElement($this->getStyleTag($href, $media));
     return $this;
   }
 
   /**
    * Return a script tag
    *
-   * $script can be a string and represent the src of the file,
-   * or an array with a key 'internal' which represent the js inside the script's tag  
+   * $src is a string which represents the src of the script or the script content if
+   * Pyrech\Layout::SCRIPT_INTERNAL is passed in $opts
    * 
-   * @param mixed $script
-   * @param boolean $defer
+   * @param string $src
+   * @param int $opts
    * @return string
    */
-  public function getScriptTag($script, $defer=false) {
-    if (is_array($script) && array_key_exists('internal', $script)) {
-      return '<script type="text/javascript">'.$script['internal'].'</script>';
+  public function getScriptTag($src, $opts=0) {
+    if (($opts & self::SCRIPT_INTERNAL) > 0) {
+      return '<script type="text/javascript">'.$src.'</script>';
     }
-    elseif (is_string($script)) {
-      return '<script src="'.$script.'" type="text/javascript"'.($defer?' defer':'').'></script>';
-    }
-    else {
-      return '';
-    }
+    return '<script src="'.$src.'" type="text/javascript"'.(($opts & self::SCRIPT_DEFER) > 0?' defer':'').'></script>';
   }
 
   /**
@@ -281,8 +278,8 @@ class Layout {
    * @param boolean $defer
    * @return Pyrech\Layout
    */
-  public function addScript($script, $defer=false) {
-    $this->addElement($this->getScriptTag($script, $defer));
+  public function addScript($src, $opts=0) {
+    $this->addElement($this->getScriptTag($src, $opts));
     return $this;
   }
 
@@ -313,11 +310,11 @@ class Layout {
    * $style can be a string and represent the href of the file and media by default is 'all',
    * or an array with a key 'href' and 'media' 
    * 
-   * @param string $type
    * @param string $href
+   * @param string $type
    * @return string
    */
-  public function getIconTag($type, $href) {
+  public function getIconTag($href, $type='png') {
     switch ($type) {
       case 'png':
         return $this->getLinkTag(array('rel'  => 'icon',
@@ -341,12 +338,12 @@ class Layout {
    * Add an icon to the head section
    * 
    * @see Pyrech\Layout::getStyleTag for details
-   * @param string $type
    * @param string $href
+   * @param string $type
    * @return Pyrech\Layout
    */
-  public function addIcon($type, $href) {
-    $this->addElement($this->getIconTag($type, $href));
+  public function addIcon($href, $type='png') {
+    $this->addElement($this->getIconTag($href, $type));
     return $this;
   }
 
@@ -380,11 +377,15 @@ class Layout {
    * doctype -> one of the DOCTYPE_X constant.@see Pyrech\Layout::setDoctype() for details
    * meta    -> array of meta. @see Pyrech\Layout::getMetaTag() for details
    * title   -> title of the page. @see Pyrech\Layout::getTitleTag() for details
-   * styles  -> array of style. @see Pyrech\Layout::getStyleTag() for details
+   * styles  -> array of style. Each item can be href or href => media.
+   *            Eg : $opts['styles'] = array('/style.css', '/print.css' => 'print');
+   *            @see Pyrech\Layout::getStyleTag() for details
    * icon    -> array with the url of favicon in .png and/or .ico
-   *            Eg : $opts['icon'] = array('png' => '/favicon.png', 'ico' => '/favicon.ico');
+   *            Eg : $opts['icon'] = array('/favicon.png' => 'png', '/favicon.ico' => 'ico');
    *            @see Pyrech\Layout::getIconTag() for details
-   * scripts -> array of script. @see Pyrech\Layout::getScriptTag() for details
+   * scripts -> array of script. Each item can be src or src => opts.
+   *            Eg : $opts['scripts'] = array('/script.js', '/script2.js' => $script_options);
+   *            @see Pyrech\Layout::getScriptTag() for details
    * defer   -> boolean. @see Pyrech\Layout::getScriptTag() for details
    * class   -> mixed. @see Pyrech\Layout::addBodyClass() for details
    * 
@@ -406,24 +407,35 @@ class Layout {
         $this->addMeta($name, $content);
       }
     }
-    if (array_key_exists('styles', $opts)) {
-        $this->addTitle($name, $content);
+    if (array_key_exists('title', $opts)) {
+        $this->addTitle($opts['title']);
+    }
+    if (array_key_exists('icon', $opts) && is_array($opts['icon'])) {
+      foreach ($opts['icon'] as $href => $type) {
+        $this->addIcon($href, $type);
+      }
     }
     if (array_key_exists('styles', $opts) && is_array($opts['styles'])) {
-      foreach ($opts['styles'] as $style) {
-        $this->addStyle($style);
+      foreach ($opts['styles'] as $href => $media) {
+        if (is_integer($href)) {
+          $this->addStyle($media);
+        }
+        else {
+          $this->addStyle($href, $media);
+        }
       }
     }
-
-    if (array_key_exists('icon', $opts) && is_array($opts['icon'])) {
-      foreach ($opts['icon'] as $type => $icon) {
-        $this->addIcon($type, $icon);
-      }
-    }
-    $defer = array_key_exists('defer', $opts) ? $opts['defer'] : false;
+    $defer = array_key_exists('defer', $opts) && $opts['defer'] ? true : false;
     if (array_key_exists('scripts', $opts) && is_array($opts['scripts'])) {
-      foreach ($opts['scripts'] as $script) {
-        $this->addScript($script, $defer);
+      foreach ($opts['scripts'] as $src => $script_opts) {
+        if (is_integer($src)) {
+          $src = $script_opts;
+          $script_opts = 0;
+        }
+        if ($defer) {
+          $script_opts |= self::SCRIPT_DEFER;
+        }
+        $this->addScript($src, $script_opts);
       }
     }
     if (array_key_exists('class', $opts)) {
