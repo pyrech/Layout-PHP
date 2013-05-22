@@ -76,7 +76,7 @@ class Layout {
    *
    * @var array
    */
-  private $head = '';
+  private $head = array();
 
 
   /**
