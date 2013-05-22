@@ -48,13 +48,13 @@ class Layout {
    * @static
    * @var array
    */
-  public static $doctypes_available = array(DOCTYPE_HTML4_01_TRANSITIONAL,
-                                            DOCTYPE_HTML4_01_STRICT,
-                                            DOCTYPE_HTML4_01_FRAMESET,
-                                            DOCTYPE_XHTML1_0_TRANSITIONAL,
-                                            DOCTYPE_XHTML1_0_STRICT,
-                                            DOCTYPE_XHTML1_0_FRAMESET,
-                                            DOCTYPE_HTML5);
+  public static $doctypes_available = array(self::DOCTYPE_HTML4_01_TRANSITIONAL,
+                                            self::DOCTYPE_HTML4_01_STRICT,
+                                            self::DOCTYPE_HTML4_01_FRAMESET,
+                                            self::DOCTYPE_XHTML1_0_TRANSITIONAL,
+                                            self::DOCTYPE_XHTML1_0_STRICT,
+                                            self::DOCTYPE_XHTML1_0_FRAMESET,
+                                            self::DOCTYPE_HTML5);
 
   /**
    * Doctype setted. Default is HTML5
