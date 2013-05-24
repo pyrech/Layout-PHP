@@ -176,6 +176,11 @@ class Layout {
     if (strpos($key_value, ':') !== false) {
       list($key_attribute, $key_value) = explode(':', $key_value, 2);
     }
+    if ($key_value == 'charset' && $this->doctype == self::DOCTYPE_HTML5) {
+      $key_attribute = 'charset';
+      $key_value = $content_value;
+      unset($content_value);
+    }
     $attributes = array($key_attribute.'="'.$key_value.'"');
     if (!empty($content_value)) {
       $attributes[] = 'content="'.$content_value.'"';
