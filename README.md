@@ -13,30 +13,30 @@ The class can be used in two ways. You can either specify your settings in the r
 
     $content = '<h1>Hello World</h1>';
 
-    $layout2 = \Pyrech\Layout::getInstance(); // Or new \Pyrech\Layout();
+    $layout = \Pyrech\Layout::getInstance(); // Or new \Pyrech\Layout();
 
-    $layout2->setDoctype(\Pyrech\Layout::DOCTYPE_HTML5)
-            ->addMeta('charset', 'utf-8')
-            ->addTitle('My wonderful title')
-            ->addMeta('description', 'Description of your page')
-            ->addMeta('robot', 'index')
-            ->addMeta('http-equiv:refresh', '60') // If the key attribute is not 'name', prefix the value by the attribute then ':''
-            ->addIcon('/favicon.png', 'png')
-            ->addIcon('/favicon.ico', 'ico')
-            ->addStyle('/my-stylesheet.css') // Default media is 'all'
-            ->addStyle('/print.css', 'print')
-            ->addScript('/my-javascript.js', \Pyrech\Layout::SCRIPT_DEFER)
-            ->addScript('alert("Hello World!");', \Pyrech\Layout::SCRIPT_INTERNAL)
-            ->addBodyClass(array('some-class', 'another-class')); // Array of classes or a string with several classes
+    $layout->setDoctype(\Pyrech\Layout::DOCTYPE_HTML5)
+           ->addMeta('charset', 'utf-8')
+           ->addTitle('My wonderful title')
+           ->addMeta('description', 'Description of your page')
+           ->addMeta('robot', 'index')
+           ->addMeta('http-equiv:refresh', '60') // If the key attribute is not 'name', prefix the value by the attribute then ':''
+           ->addIcon('/favicon.png', 'png')
+           ->addIcon('/favicon.ico', 'ico')
+           ->addStyle('/my-stylesheet.css') // Default media is 'all'
+           ->addStyle('/print.css', 'print')
+           ->addScript('/my-javascript.js', \Pyrech\Layout::SCRIPT_DEFER)
+           ->addScript('alert("Hello World!");', \Pyrech\Layout::SCRIPT_INTERNAL)
+           ->addBodyClass(array('some-class', 'another-class')); // Array of classes or a string with several classes
 
-    echo $layout2->render($content);
+    echo $layout->render($content);
 
 Second way (via render method):
 ------------------------------------------------
 
     $content = '<h1>Hello World</h1>';
 
-    $layout1 = \Pyrech\Layout::getInstance(); // Or new \Pyrech\Layout();
+    $layout = \Pyrech\Layout::getInstance(); // Or new \Pyrech\Layout();
 
     $opts = array('doctype' => \Pyrech\Layout::DOCTYPE_HTML5,
                   'meta'    => array('charset'            => 'utf-8',
@@ -53,7 +53,7 @@ Second way (via render method):
                   'defer'   => true, // Defer can be setted for all scripts
                   'class'   => array('some-class', 'another-class')); // Array of classes or a string with several classes
                   
-    echo $layout1->render($content, $opts);
+    echo $layout->render($content, $opts);
 
 Custom elements
 ------------------------------------------------
